@@ -23,8 +23,9 @@ Fornisce:
 | `@angular/material` | `^17.0.0` | bell icon + snackbar |
 | `@angular/router` | `^17.0.0` | navigazione su click notifica |
 | `rxjs` | `^7.0.0` | — |
-| `socket.io-client` | `^4.7.0` | gateway WebSocket |
 | `@angular/animations` | `^17.0.0` | richiesto da Material — `provideAnimations()` |
+
+`socket.io-client` (`^4.7.0`) è incluso come dipendenza diretta della libreria — non serve installarlo separatamente.
 
 Inoltre serve un **backend producer** che:
 
@@ -36,10 +37,20 @@ Inoltre serve un **backend producer** che:
 ## Installazione
 
 ```bash
-pnpm add @ottimis/ermes-ng socket.io-client
+npm install @ottimis/ermes-ng
 ```
 
-`socket.io-client` è peerDependency e va installato esplicitamente nel progetto consumer.
+Con yarn:
+```bash
+yarn add @ottimis/ermes-ng
+```
+
+Con pnpm:
+```bash
+pnpm add @ottimis/ermes-ng
+```
+
+Le peer dependencies Angular (`@angular/core`, `@angular/material`, `@angular/cdk`, `@angular/router`, `@angular/common`, `rxjs`) sono già nel tuo progetto Angular 17+. `socket.io-client` è incluso automaticamente.
 
 ---
 
