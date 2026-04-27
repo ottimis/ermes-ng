@@ -1,4 +1,4 @@
-# @ermes-ng/notify-ui
+# @ottimis/ermes-ng
 
 Libreria Angular standalone per integrare la piattaforma di notifiche **Ermes** in qualsiasi frontend Angular 17+.
 
@@ -36,7 +36,7 @@ Inoltre serve un **backend producer** che:
 ## Installazione
 
 ```bash
-pnpm add @ermes-ng/notify-ui socket.io-client
+pnpm add @ottimis/ermes-ng socket.io-client
 ```
 
 `socket.io-client` è peerDependency e va installato esplicitamente nel progetto consumer.
@@ -52,7 +52,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideNotifyUi } from '@ermes-ng/notify-ui';
+import { provideNotifyUi } from '@ottimis/ermes-ng';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -84,7 +84,7 @@ Il backend producer deve restituire un `wsToken` dedicato in risposta al login. 
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { NotifyAuthService } from '@ermes-ng/notify-ui';
+import { NotifyAuthService } from '@ottimis/ermes-ng';
 
 export class SignInComponent {
   private notifyAuth = inject(NotifyAuthService);
@@ -100,7 +100,7 @@ export class SignInComponent {
 ### 3. Pulizia al logout
 
 ```typescript
-import { NotifyAuthService } from '@ermes-ng/notify-ui';
+import { NotifyAuthService } from '@ottimis/ermes-ng';
 
 export class AuthService {
   private notifyAuth = inject(NotifyAuthService);
@@ -122,7 +122,7 @@ export class AuthService {
 Il componente è **standalone**: importalo direttamente nel componente che lo usa.
 
 ```typescript
-import { NotifyBellComponent } from '@ermes-ng/notify-ui';
+import { NotifyBellComponent } from '@ottimis/ermes-ng';
 
 @Component({
   standalone: true,
@@ -258,7 +258,7 @@ import {
   NotifySocketService,  // connect / disconnect / events$
   NotifyRouterService,  // handleClick(notification)
   NotifyToastService,   // show(notification)
-} from '@ermes-ng/notify-ui';
+} from '@ottimis/ermes-ng';
 ```
 
 #### `NotifyAuthService`
@@ -297,7 +297,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideNotifyUi } from '@ermes-ng/notify-ui';
+import { provideNotifyUi } from '@ottimis/ermes-ng';
 import { environment } from './environments/environment';
 import { routes } from './app.routes';
 
@@ -325,7 +325,7 @@ export const appConfig: ApplicationConfig = {
 ```typescript
 // sign-in.component.ts (estratto)
 import { Component, inject } from '@angular/core';
-import { NotifyAuthService } from '@ermes-ng/notify-ui';
+import { NotifyAuthService } from '@ottimis/ermes-ng';
 
 export class SignInComponent {
   private notifyAuth = inject(NotifyAuthService);

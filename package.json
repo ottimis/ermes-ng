@@ -1,5 +1,5 @@
 {
-  "name": "@ermes-ng/notify-ui",
+  "name": "@ottimis/ermes-ng",
   "version": "0.1.0",
   "description": "Angular notification UI + WebSocket client for the Ermes notification platform",
   "scripts": {
