@@ -1,0 +1,23 @@
+diff --git a/lib/ng-package/entry-point/write-package.transform.js b/lib/ng-package/entry-point/write-package.transform.js
+index 1daf6314bd225a54e285a38b47913ccd556f5503..292482b2d8920f73b6ec6b89f6dd01bf8955fbb7 100644
+--- a/lib/ng-package/entry-point/write-package.transform.js
++++ b/lib/ng-package/entry-point/write-package.transform.js
+@@ -108,17 +108,7 @@ async function copyAssets(graph, entryPointNode, ngPackageNode) {
+     var _a;
+     const ngPackage = ngPackageNode.data;
+     const globsForceIgnored = ['.gitkeep', '**/.DS_Store', '**/Thumbs.db', `${ngPackage.dest}/**`];
+-    const defaultAssets = [
+-        { glob: 'LICENSE', input: '/', output: '/' },
+-        ...graph.filter(nodes_1.isEntryPoint).map(({ data }) => {
+-            const subpath = data.entryPoint.destinationFiles.directory || '/';
+-            return {
+-                glob: 'README.md',
+-                input: subpath,
+-                output: subpath,
+-            };
+-        }),
+-    ];
++    const defaultAssets = [];
+     const assets = [];
+     for (const assetPath of [...ngPackage.assets, ...defaultAssets]) {
+         let asset;

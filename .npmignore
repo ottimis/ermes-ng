@@ -1,0 +1,7 @@
+src/
+out-tsc/
+node_modules/
+.github/
+tsconfig*.json
+ng-package.json
+pnpm-lock.yaml
