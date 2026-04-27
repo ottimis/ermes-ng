@@ -1,7 +1,17 @@
 {
   "name": "@ottimis/ermes-ng",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Angular notification UI + WebSocket client for the Ermes notification platform",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ottimis/ermes-ng.git"
+  },
+  "homepage": "https://github.com/ottimis/ermes-ng#readme",
+  "bugs": {
+    "url": "https://github.com/ottimis/ermes-ng/issues"
+  },
+  "license": "ISC",
+  "author": "Ottimis",
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
     "typecheck": "tsc --noEmit -p tsconfig.lib.json",
