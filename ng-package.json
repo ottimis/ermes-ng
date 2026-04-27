@@ -5,5 +5,8 @@
   "dest": "dist",
   "assets": [
     "README.md"
+  ],
+  "allowedNonPeerDependencies": [
+    "socket.io-client"
   ]
 }
