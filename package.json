@@ -1,6 +1,6 @@
 {
   "name": "@ottimis/ermes-ng",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Angular notification UI + WebSocket client for the Ermes notification platform",
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
