@@ -168,6 +168,134 @@ type NotifyResolver = (n: NotifyNotification) => {
 
 ---
 
+## Theming
+
+La libreria espone un'API di customizzazione completa per colori, raggi, spacing, tipografia e dark mode. Funziona out-of-the-box con default blu Fuse-like, e si adatta automaticamente al tema Fuse del consumer se rilevato.
+
+### Default look
+
+Senza alcuna configurazione, la libreria usa una palette blu (#1e40af primary, badge teal #0d9488, severity standard) compatibile a vista con Fuse.
+
+### Auto-detect Fuse
+
+Se il consumer usa il tema Fuse (espone `--fuse-primary` su `:root`), la lib rileva automaticamente e mappa:
+
+| Token Ermes | Token Fuse |
+|---|---|
+| `--ermes-color-primary` | `var(--fuse-primary)` |
+| `--ermes-color-primary-fg` | `var(--fuse-on-primary)` |
+| `--ermes-color-surface` | `var(--fuse-bg-card)` |
+| `--ermes-color-text-secondary` | `var(--fuse-text-secondary)` |
+
+Severity, badge, radius, spacing e font restano sui default pubblici.
+
+Per forzare comportamento esplicito:
+```typescript
+provideNotifyUi({
+  ...,
+  theme: { themeBridge: 'fuse' }       // forza bridge Fuse
+});
+provideNotifyUi({
+  ...,
+  theme: { themeBridge: 'standalone' } // ignora Fuse, usa solo defaults pubblici
+});
+```
+
+### Override TypeScript
+
+```typescript
+provideNotifyUi({
+  coreHttpUrl: '...',
+  coreWsUrl: '...',
+  theme: {
+    colors: {
+      primary: '#7c3aed',
+      primaryFg: '#ffffff',
+      badgeBg: '#f59e0b',
+      severity: { error: '#dc2626' },
+    },
+    radius: { md: '4px', full: '9999px' },
+    spacing: { md: '1.25rem' },
+    typography: { fontFamily: 'Inter, sans-serif' },
+    darkMode: 'auto',
+  },
+});
+```
+
+I valori specificati in `theme.colors.*` **vincono sempre** sul bridge Fuse — utile per override puntuali in un'app Fuse.
+
+### Override CSS (escape hatch)
+
+```css
+/* styles.css del consumer */
+:root {
+  --ermes-color-primary: #ec4899;
+  --ermes-radius-md: 0;
+  --ermes-color-severity-error: #dc2626;
+}
+```
+
+Vince sui CSS vars settati dalla libreria perché valutato dal browser dopo l'inline style attribute, se il foglio è caricato dopo il bootstrap Angular. Per forza override usa `!important`.
+
+### Dark mode
+
+```typescript
+theme: { darkMode: 'auto' }   // segue prefers-color-scheme (default)
+theme: { darkMode: 'always' } // sempre dark
+theme: { darkMode: 'never' }  // sempre light
+```
+
+Override colori dark espliciti:
+```typescript
+theme: {
+  darkMode: 'always',
+  dark: {
+    surface: '#000000',
+    surfaceFg: '#ffffff',
+    textSecondary: '#a3a3a3',
+  },
+}
+```
+
+### Tabella completa CSS variables
+
+| Variable | Default light | Default dark |
+|---|---|---|
+| `--ermes-color-primary` | `#1e40af` | (eredita) |
+| `--ermes-color-primary-fg` | `#ffffff` | (eredita) |
+| `--ermes-color-surface` | `#ffffff` | `#1e293b` |
+| `--ermes-color-surface-fg` | `#0f172a` | `#f1f5f9` |
+| `--ermes-color-text-secondary` | `#64748b` | `#94a3b8` |
+| `--ermes-color-badge-bg` | `#0d9488` | (eredita) |
+| `--ermes-color-badge-fg` | `#eef2ff` | (eredita) |
+| `--ermes-color-empty-icon-bg` | `#dbeafe` | `#1e3a8a` |
+| `--ermes-color-empty-icon-fg` | `#1d4ed8` | `#bfdbfe` |
+| `--ermes-color-severity-error` | `#ef4444` | (eredita) |
+| `--ermes-color-severity-warning` | `#f59e0b` | (eredita) |
+| `--ermes-color-severity-success` | `#22c55e` | (eredita) |
+| `--ermes-color-severity-info` | `#3b82f6` | (eredita) |
+| `--ermes-radius-sm` | `0.25rem` | — |
+| `--ermes-radius-md` | `1rem` | — |
+| `--ermes-radius-full` | `9999px` | — |
+| `--ermes-spacing-xs` | `0.25rem` | — |
+| `--ermes-spacing-sm` | `0.5rem` | — |
+| `--ermes-spacing-md` | `1rem` | — |
+| `--ermes-spacing-lg` | `1.5rem` | — |
+| `--ermes-font-family` | `inherit` | — |
+| `--ermes-font-size-sm` | `0.875rem` | — |
+| `--ermes-font-size-md` | `1rem` | — |
+| `--ermes-font-weight-bold` | `600` | — |
+
+### Note Tailwind
+
+I template della libreria usano ancora alcune utility class Tailwind di layout (`flex`, `items-center`, `py-4` ecc.). Su consumer senza Tailwind, layout potrebbe risultare meno preciso ma colori e severity rimangono corretti grazie alle CSS vars. Rimozione completa Tailwind layout pianificata in v0.3.0.
+
+### Toast (MatSnackBar)
+
+Quando `enableToast: true`, la lib emette pannelli `MatSnackBar` con classi `notify-toast--{severity}`. Gli stili default (`background-color` collegata a `--ermes-color-severity-*`) vengono iniettati automaticamente dal provider — nessuna config consumer richiesta.
+
+---
+
 ## Modello notifica
 
 ```typescript

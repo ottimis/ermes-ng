@@ -12,11 +12,49 @@ import { NotifyRouterService } from '../../services/notify-router.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, NgFor, NgClass, DatePipe, MatButtonModule, MatIconModule, MatTooltipModule],
+  styles: [`
+    :host { font-family: var(--ermes-font-family, inherit); }
+    .notify-panel {
+      background-color: var(--ermes-color-surface, #ffffff);
+      color: var(--ermes-color-surface-fg, #0f172a);
+    }
+    @media (min-width: 640px) {
+      .notify-panel { border-radius: var(--ermes-radius-md, 1rem); }
+    }
+    .notify-header {
+      background-color: var(--ermes-color-primary, #1e40af);
+      color: var(--ermes-color-primary-fg, #ffffff);
+    }
+    .notify-text-secondary {
+      color: var(--ermes-color-text-secondary, #64748b);
+      font-size: var(--ermes-font-size-sm, 0.875rem);
+    }
+    .notify-unread-dot {
+      background-color: var(--ermes-color-primary, #1e40af);
+      border-radius: var(--ermes-radius-full, 9999px);
+    }
+    .notify-severity {
+      background-color: var(--ermes-color-severity-info, #3b82f6);
+      border-radius: var(--ermes-radius-full, 9999px);
+    }
+    .notify-severity--error   { background-color: var(--ermes-color-severity-error,   #ef4444); border-radius: var(--ermes-radius-full, 9999px); }
+    .notify-severity--warning { background-color: var(--ermes-color-severity-warning, #f59e0b); border-radius: var(--ermes-radius-full, 9999px); }
+    .notify-severity--success { background-color: var(--ermes-color-severity-success, #22c55e); border-radius: var(--ermes-radius-full, 9999px); }
+    .notify-empty-icon-bg {
+      background-color: var(--ermes-color-empty-icon-bg, #dbeafe);
+      border-radius: var(--ermes-radius-full, 9999px);
+    }
+    .notify-empty-icon-fg { color: var(--ermes-color-empty-icon-fg, #1d4ed8); }
+    .notify-title {
+      font-weight: var(--ermes-font-weight-bold, 600);
+      font-size: var(--ermes-font-size-md, 1rem);
+    }
+  `],
   template: `
     <div
-      class="fixed inset-0 sm:static sm:inset-auto flex flex-col sm:min-w-90 sm:w-90 sm:rounded-2xl overflow-hidden shadow-lg"
+      class="notify-panel fixed inset-0 sm:static sm:inset-auto flex flex-col sm:min-w-90 sm:w-90 overflow-hidden shadow-lg"
     >
-      <div class="flex shrink-0 items-center py-4 pr-4 pl-6 bg-primary text-on-primary">
+      <div class="notify-header flex shrink-0 items-center py-4 pr-4 pl-6">
         <div class="sm:hidden -ml-1 mr-3">
           <button mat-icon-button (click)="close.emit()">
             <mat-icon class="icon-size-5 text-current" svgIcon="heroicons_solid:x-mark"></mat-icon>
@@ -35,7 +73,7 @@ import { NotifyRouterService } from '../../services/notify-router.service';
         </div>
       </div>
 
-      <div class="relative flex flex-col flex-auto sm:max-h-120 divide-y overflow-y-auto bg-card">
+      <div class="relative flex flex-col flex-auto sm:max-h-120 divide-y overflow-y-auto">
         <ng-container *ngFor="let n of notifications; trackBy: trackByFn">
           <div
             class="flex group hover:bg-gray-50 dark:hover:bg-black dark:hover:bg-opacity-5 cursor-pointer"
@@ -44,21 +82,21 @@ import { NotifyRouterService } from '../../services/notify-router.service';
           >
             <div class="flex flex-auto py-5 pl-6 pr-4">
               <div
-                class="flex shrink-0 items-center justify-center w-8 h-8 mr-4 rounded-full"
+                class="flex shrink-0 items-center justify-center w-8 h-8 mr-4"
                 [ngClass]="severityBg(n.severity)"
               >
                 <mat-icon class="icon-size-5 text-white" [svgIcon]="iconFor(n)"></mat-icon>
               </div>
               <div class="flex flex-col flex-auto">
-                <div class="font-semibold line-clamp-1">{{ n.title }}</div>
+                <div class="notify-title line-clamp-1">{{ n.title }}</div>
                 <div *ngIf="n.body" class="line-clamp-2 text-sm">{{ n.body }}</div>
-                <div class="mt-2 text-sm leading-none text-secondary">
+                <div class="notify-text-secondary mt-2 leading-none">
                   {{ n.created_at | date: 'dd MMM, HH:mm' }}
                 </div>
               </div>
               <div
                 *ngIf="!n.read_at"
-                class="w-2 h-2 self-start mt-2 rounded-full bg-primary shrink-0"
+                class="notify-unread-dot w-2 h-2 self-start mt-2 shrink-0"
                 matTooltip="Non letta"
               ></div>
             </div>
@@ -67,13 +105,11 @@ import { NotifyRouterService } from '../../services/notify-router.service';
 
         <ng-container *ngIf="!notifications || notifications.length === 0">
           <div class="flex flex-col flex-auto items-center justify-center sm:justify-start py-12 px-8">
-            <div
-              class="flex flex-0 items-center justify-center w-14 h-14 rounded-full bg-primary-100 dark:bg-primary-600"
-            >
-              <mat-icon class="text-primary-700 dark:text-primary-50" svgIcon="heroicons_outline:bell"></mat-icon>
+            <div class="notify-empty-icon-bg flex flex-0 items-center justify-center w-14 h-14">
+              <mat-icon class="notify-empty-icon-fg" svgIcon="heroicons_outline:bell"></mat-icon>
             </div>
             <div class="mt-5 text-2xl font-semibold tracking-tight">Nessuna notifica</div>
-            <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">
+            <div class="notify-text-secondary w-full max-w-60 mt-1 text-center">
               Le notifiche che riceverai saranno visualizzate qui.
             </div>
           </div>
@@ -119,13 +155,13 @@ export class NotifyDropdownComponent {
   severityBg(severity: NotifyNotification['severity']): string {
     switch (severity) {
       case 'error':
-        return 'bg-red-500';
+        return 'notify-severity--error';
       case 'warning':
-        return 'bg-amber-500';
+        return 'notify-severity--warning';
       case 'success':
-        return 'bg-green-500';
+        return 'notify-severity--success';
       default:
-        return 'bg-blue-500';
+        return 'notify-severity';
     }
   }
 }

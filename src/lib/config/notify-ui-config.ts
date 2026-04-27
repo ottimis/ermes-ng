@@ -9,6 +9,64 @@ export interface NotifyRouteAction {
 
 export type NotifyResolver = (notification: NotifyNotification) => NotifyRouteAction | null;
 
+export interface NotifyThemeColors {
+  primary?: string;
+  primaryFg?: string;
+  surface?: string;
+  surfaceFg?: string;
+  textSecondary?: string;
+  badgeBg?: string;
+  badgeFg?: string;
+  emptyIconBg?: string;
+  emptyIconFg?: string;
+  severity?: {
+    error?: string;
+    warning?: string;
+    success?: string;
+    info?: string;
+  };
+}
+
+export interface NotifyThemeRadius {
+  sm?: string;
+  md?: string;
+  full?: string;
+}
+
+export interface NotifyThemeSpacing {
+  xs?: string;
+  sm?: string;
+  md?: string;
+  lg?: string;
+}
+
+export interface NotifyThemeTypography {
+  fontFamily?: string;
+  fontSizeSm?: string;
+  fontSizeMd?: string;
+  fontWeightBold?: string;
+}
+
+export interface NotifyTheme {
+  colors?: NotifyThemeColors;
+  radius?: NotifyThemeRadius;
+  spacing?: NotifyThemeSpacing;
+  typography?: NotifyThemeTypography;
+  /** Dark mode strategy. 'auto' follows prefers-color-scheme. Default: 'auto'. */
+  darkMode?: 'auto' | 'always' | 'never';
+  /** Optional explicit color overrides for dark mode. Falls back to built-in dark palette. */
+  dark?: NotifyThemeColors;
+  /**
+   * Bridge to the consumer's Fuse theme.
+   * - 'auto' (default): detects Fuse at runtime via --fuse-primary; if present, maps
+   *   primary/primaryFg/surface/textSecondary to var(--fuse-*).
+   * - 'fuse': forces the bridge even if Fuse is not detected (useful in tests/SSR).
+   * - 'standalone': ignores Fuse and uses public defaults / theme TS / CSS vars only.
+   * Explicit `theme.colors.*` always overrides bridge mappings.
+   */
+  themeBridge?: 'auto' | 'fuse' | 'standalone';
+}
+
 export interface NotifyUiConfig {
   /**
    * Base URL of the inbox HTTP API (typically the producer backend that proxies the core).
@@ -60,6 +118,12 @@ export interface NotifyUiConfig {
    * Defaults to 100.
    */
   maxInboxSize?: number;
+
+  /**
+   * Optional theme overrides. All fields are optional; defaults match a Fuse-like blue palette.
+   * Auto-detects the consumer's Fuse theme by default — see NotifyTheme.themeBridge.
+   */
+  theme?: NotifyTheme;
 }
 
 export const NOTIFY_UI_CONFIG = new InjectionToken<NotifyUiConfig>('NOTIFY_UI_CONFIG');

@@ -29,6 +29,16 @@ import { NotifyDropdownComponent } from '../notify-dropdown/notify-dropdown.comp
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, MatButtonModule, MatIconModule, MatTooltipModule, NotifyDropdownComponent],
+  styles: [`
+    :host { font-family: var(--ermes-font-family, inherit); }
+    .notify-badge {
+      background-color: var(--ermes-color-badge-bg, #0d9488);
+      color: var(--ermes-color-badge-fg, #eef2ff);
+      border-radius: var(--ermes-radius-full, 9999px);
+      font-size: var(--ermes-font-size-sm, 0.875rem);
+      font-weight: var(--ermes-font-weight-bold, 600);
+    }
+  `],
   template: `
     <button
       mat-icon-button
@@ -37,9 +47,7 @@ import { NotifyDropdownComponent } from '../notify-dropdown/notify-dropdown.comp
       matTooltip="Notifiche"
     >
       <span *ngIf="unreadCount > 0" class="absolute top-0 right-0 left-0 flex items-center justify-center h-3">
-        <span
-          class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-teal-600 text-indigo-50 text-xs font-medium"
-        >
+        <span class="notify-badge flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5">
           {{ unreadCount > 99 ? '99+' : unreadCount }}
         </span>
       </span>
