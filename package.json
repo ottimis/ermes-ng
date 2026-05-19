@@ -1,6 +1,6 @@
 {
   "name": "@ottimis/ermes-ng",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Angular notification UI + WebSocket client for the Ermes notification platform",
   "repository": {
     "type": "git",

@@ -15,7 +15,7 @@ import {
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 import { NOTIFY_UI_CONFIG } from '../../config/notify-ui-config';
 import { NotifyNotification } from '../../models/notification.model';
 import { NotifyAuthService } from '../../services/notify-auth.service';
@@ -109,10 +109,21 @@ export class NotifyBellComponent implements OnInit, OnDestroy {
     if (!this.notifyAuth.getToken() && this.config.tokenProvider) {
       this.notifyAuth.setToken(this.config.tokenProvider());
     }
-    if (this.notifyAuth.getToken()) {
-      this.inbox.bootstrap().subscribe({ error: () => {} });
-      this.socket.connect();
-    }
+
+    // Reactive: bootstrap/connect quando il token diventa disponibile,
+    // disconnect/clear quando viene rimosso. distinctUntilChanged evita
+    // doppi bootstrap su emissioni duplicate.
+    this.notifyAuth.token$
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(token => {
+        if (token) {
+          this.inbox.bootstrap().subscribe({ error: () => {} });
+          this.socket.connect();
+        } else {
+          this.socket.disconnect();
+          this.inbox.clear();
+        }
+      });
   }
 
   ngOnDestroy(): void {
