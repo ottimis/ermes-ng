@@ -4,7 +4,8 @@
   },
   "dest": "dist",
   "assets": [
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "allowedNonPeerDependencies": [
     "socket.io-client"

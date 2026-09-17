@@ -1,6 +1,6 @@
 {
   "name": "@ottimis/ermes-ng",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Angular notification UI + WebSocket client for the Ermes notification platform",
   "repository": {
     "type": "git",
@@ -15,30 +15,41 @@
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
     "typecheck": "tsc --noEmit -p tsconfig.lib.json",
-    "test": "echo 'No tests yet' && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "socket.io-client": "^4.7.0",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/cdk": "^17.0.0",
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/material": "^17.0.0",
-    "@angular/router": "^17.0.0",
+    "@angular/cdk": ">=17.0.0 <21.0.0",
+    "@angular/common": ">=17.0.0 <21.0.0",
+    "@angular/core": ">=17.0.0 <21.0.0",
+    "@angular/material": ">=17.0.0 <21.0.0",
+    "@angular/router": ">=17.0.0 <21.0.0",
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
     "@angular/compiler": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
+    "jsdom": "^25",
     "ng-packagr": "^17.0.0",
-    "typescript": "~5.2.0"
+    "typescript": "~5.2.0",
+    "vitest": "^2"
   },
   "sideEffects": false,
   "pnpm": {
     "patchedDependencies": {
       "ng-packagr@17.3.0": "patches/ng-packagr@17.3.0.patch"
     }
-  }
+  },
+  "keywords": [
+    "angular",
+    "notifications",
+    "websocket",
+    "socket.io",
+    "ermes",
+    "ottimis"
+  ]
 }

@@ -1,6 +1,8 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   APP_INITIALIZER,
+  CSP_NONCE,
+  DestroyRef,
   EnvironmentProviders,
   PLATFORM_ID,
   Provider,
@@ -24,12 +26,16 @@ export function provideNotifyUi(config: NotifyUiConfig): EnvironmentProviders {
       useFactory: () => {
         const platformId = inject(PLATFORM_ID);
         const doc = inject(DOCUMENT);
+        const nonce = inject(CSP_NONCE, { optional: true });
+        const destroyRef = inject(DestroyRef);
         return () => {
           if (!isPlatformBrowser(platformId)) return;
           const theme = resolveEffectiveTheme(doc, config.theme);
           applyCssVars(doc, theme);
-          applyDarkMode(doc, theme);
-          injectToastStyles(doc);
+          // The prefers-color-scheme listener lives as long as the application injector.
+          const teardown = applyDarkMode(doc, theme);
+          if (teardown) destroyRef.onDestroy(teardown);
+          injectToastStyles(doc, nonce);
         };
       },
     },
