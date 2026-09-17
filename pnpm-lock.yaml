@@ -14,19 +14,19 @@ importers:
   .:
     dependencies:
       '@angular/cdk':
-        specifier: ^17.0.0
+        specifier: '>=17.0.0 <21.0.0'
         version: 17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
       '@angular/common':
-        specifier: ^17.0.0
+        specifier: '>=17.0.0 <21.0.0'
         version: 17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
       '@angular/core':
-        specifier: ^17.0.0
+        specifier: '>=17.0.0 <21.0.0'
         version: 17.3.12(rxjs@7.8.2)(zone.js@0.14.10)
       '@angular/material':
-        specifier: ^17.0.0
+        specifier: '>=17.0.0 <21.0.0'
         version: 17.3.10(xc26vd5oduvcaqmpsfsz5odfsi)
       '@angular/router':
-        specifier: ^17.0.0
+        specifier: '>=17.0.0 <21.0.0'
         version: 17.3.12(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@18.2.14(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10)))(rxjs@7.8.2)
       rxjs:
         specifier: ^7.0.0
